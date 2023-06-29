@@ -1,0 +1,3550 @@
+<?xml version="1.0"?>
+<net name="torch_jit" version="11">
+	<layers>
+		<layer id="0" name="input" type="Parameter" version="opset1">
+			<data shape="1,3,24,94" element_type="f32" />
+			<rt_info>
+				<attribute name="old_api_map_element_type" version="0" value="f16" />
+			</rt_info>
+			<output>
+				<port id="0" precision="FP32" names="input">
+					<dim>1</dim>
+					<dim>3</dim>
+					<dim>24</dim>
+					<dim>94</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="1" name="onnx::Conv_156_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="64, 3, 3, 3" offset="0" size="3456" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="2" name="onnx::Conv_156" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="onnx::Conv_156">
+					<dim>64</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="3" name="/backbone.0/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>3</dim>
+					<dim>24</dim>
+					<dim>94</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>64</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>22</dim>
+					<dim>92</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="4" name="Reshape_45_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 64, 1, 1" offset="3456" size="128" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="5" name="Reshape_45" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="6" name="/backbone.0/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>22</dim>
+					<dim>92</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.0/Conv_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>22</dim>
+					<dim>92</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="7" name="/backbone.2/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>22</dim>
+					<dim>92</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/Pad_output_0,/backbone.2/Relu_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>22</dim>
+					<dim>92</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="8" name="/AveragePool" type="AvgPool" version="opset1">
+			<data kernel="5, 5" strides="5, 5" pads_begin="0, 0" pads_end="0, 0" exclude-pad="true" auto_pad="explicit" rounding_type="floor" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>22</dim>
+					<dim>92</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/AveragePool_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="9" name="Constant_1627_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 1, 1, 1" offset="3584" size="2" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="10" name="Constant_1627" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="11" name="/Pow" type="Power" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/Pow_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="12" name="Constant_334" type="Const" version="opset1">
+			<data element_type="i64" shape="4" offset="3586" size="32" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>4</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="13" name="/ReduceMean" type="ReduceMean" version="opset1">
+			<data keep_dims="false" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>4</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/ReduceMean_output_0" />
+			</output>
+		</layer>
+		<layer id="14" name="/Div" type="Divide" version="opset1">
+			<data auto_broadcast="numpy" m_pythondiv="true" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="FP32" />
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/Div_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="15" name="/backbone.3/Cast" type="Const" version="opset1">
+			<data element_type="i64" shape="" offset="3618" size="8" />
+			<output>
+				<port id="0" precision="I64" names="/backbone.3/Cast_output_0" />
+			</output>
+		</layer>
+		<layer id="16" name="Constant_52" type="Const" version="opset1">
+			<data element_type="i64" shape="" offset="3618" size="8" />
+			<output>
+				<port id="0" precision="I64" />
+			</output>
+		</layer>
+		<layer id="17" name="/backbone.3/Gather" type="Gather" version="opset8">
+			<data batch_dims="0" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>22</dim>
+					<dim>92</dim>
+				</port>
+				<port id="1" precision="I64" />
+				<port id="2" precision="I64" />
+			</input>
+			<output>
+				<port id="3" precision="FP32" names="/backbone.3/Gather_output_0">
+					<dim>64</dim>
+					<dim>22</dim>
+					<dim>92</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="18" name="Constant_54" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="3618" size="8" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="19" name="/backbone.3/Unsqueeze" type="Unsqueeze" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>64</dim>
+					<dim>22</dim>
+					<dim>92</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.3/Unsqueeze_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>22</dim>
+					<dim>92</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="20" name="/backbone.3/max_pool_2d/MaxPool" type="MaxPool" version="opset8">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" kernel="3, 3" rounding_type="floor" auto_pad="explicit" index_element_type="i64" axis="0" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>22</dim>
+					<dim>92</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.3/max_pool_2d/MaxPool_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+				<port id="2" precision="I64">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="21" name="Constant_57" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="3618" size="8" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="22" name="/backbone.3/Squeeze" type="Squeeze" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.3/Squeeze_output_0">
+					<dim>64</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="23" name="Constant_59" type="Const" version="opset1">
+			<data element_type="i64" shape="3" offset="3626" size="24" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="24" name="/backbone.3/Transpose" type="Transpose" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>64</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.3/Transpose_output_0">
+					<dim>20</dim>
+					<dim>90</dim>
+					<dim>64</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="25" name="/backbone.3/max_pool_1d/MaxPool" type="MaxPool" version="opset8">
+			<data strides="1" dilations="1" pads_begin="0" pads_end="0" kernel="1" rounding_type="floor" auto_pad="explicit" index_element_type="i64" axis="0" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>20</dim>
+					<dim>90</dim>
+					<dim>64</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.3/max_pool_1d/MaxPool_output_0">
+					<dim>20</dim>
+					<dim>90</dim>
+					<dim>64</dim>
+				</port>
+				<port id="2" precision="I64">
+					<dim>20</dim>
+					<dim>90</dim>
+					<dim>64</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="26" name="Constant_62" type="Const" version="opset1">
+			<data element_type="i64" shape="3" offset="3650" size="24" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="27" name="/backbone.3/Transpose_1" type="Transpose" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>20</dim>
+					<dim>90</dim>
+					<dim>64</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.3/Transpose_1_output_0">
+					<dim>64</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="28" name="Constant_64" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="3618" size="8" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="29" name="/backbone.3/Unsqueeze_1" type="Unsqueeze" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>64</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.3/Concat_output_0,/backbone.3/Unsqueeze_1_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="30" name="backbone.4.block.0.weight_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="32, 64, 1, 1" offset="3674" size="4096" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>32</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="31" name="backbone.4.block.0.weight" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>32</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="backbone.4.block.0.weight">
+					<dim>32</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="32" name="/backbone.4/block/block.0/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>32</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="33" name="Reshape_78_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 32, 1, 1" offset="7770" size="64" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="34" name="Reshape_78" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="35" name="/backbone.4/block/block.0/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.4/block/block.0/Conv_output_0">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="36" name="/backbone.4/block/block.1/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.4/block/block.1/Relu_output_0">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="37" name="backbone.4.block.2.weight_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="32, 32, 3, 1" offset="7834" size="6144" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>32</dim>
+					<dim>32</dim>
+					<dim>3</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="38" name="backbone.4.block.2.weight" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>32</dim>
+					<dim>32</dim>
+					<dim>3</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="backbone.4.block.2.weight">
+					<dim>32</dim>
+					<dim>32</dim>
+					<dim>3</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="39" name="/backbone.4/block/block.2/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="1, 0" pads_end="1, 0" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>32</dim>
+					<dim>32</dim>
+					<dim>3</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="40" name="Reshape_94_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 32, 1, 1" offset="13978" size="64" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="41" name="Reshape_94" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="42" name="/backbone.4/block/block.2/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.4/block/block.2/Conv_output_0">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="43" name="/backbone.4/block/block.3/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.4/block/block.3/Relu_output_0">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="44" name="backbone.4.block.4.weight_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="32, 32, 1, 3" offset="14042" size="6144" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>32</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="45" name="backbone.4.block.4.weight" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>32</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="backbone.4.block.4.weight">
+					<dim>32</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="46" name="/backbone.4/block/block.4/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 1" pads_end="0, 1" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>32</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="47" name="Reshape_110_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 32, 1, 1" offset="20186" size="64" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="48" name="Reshape_110" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="49" name="/backbone.4/block/block.4/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.4/block/block.4/Conv_output_0">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="50" name="/backbone.4/block/block.5/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.4/block/block.5/Relu_output_0">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="51" name="onnx::Conv_159_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="128, 32, 1, 1" offset="20250" size="8192" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>128</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="52" name="onnx::Conv_159" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>128</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="onnx::Conv_159">
+					<dim>128</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="53" name="/backbone.4/block/block.6/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>32</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>128</dim>
+					<dim>32</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="54" name="Reshape_126_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 128, 1, 1" offset="28442" size="256" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="55" name="Reshape_126" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="56" name="/backbone.4/block/block.6/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.4/block/block.6/Conv_output_0">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="57" name="/backbone.6/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/Pad_1_output_0,/backbone.6/Relu_output_0">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="58" name="/AveragePool_1" type="AvgPool" version="opset1">
+			<data kernel="5, 5" strides="5, 5" pads_begin="0, 0" pads_end="0, 0" exclude-pad="true" auto_pad="explicit" rounding_type="floor" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/AveragePool_1_output_0">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="59" name="Constant_1628_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 1, 1, 1" offset="3584" size="2" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="60" name="Constant_1628" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="61" name="/Pow_1" type="Power" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/Pow_1_output_0">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="62" name="Constant_344" type="Const" version="opset1">
+			<data element_type="i64" shape="4" offset="3586" size="32" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>4</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="63" name="/ReduceMean_1" type="ReduceMean" version="opset1">
+			<data keep_dims="false" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>4</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/ReduceMean_1_output_0" />
+			</output>
+		</layer>
+		<layer id="64" name="/Div_1" type="Divide" version="opset1">
+			<data auto_broadcast="numpy" m_pythondiv="true" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="FP32" />
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/Div_1_output_0">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="65" name="/backbone.7/Cast" type="Const" version="opset1">
+			<data element_type="i64" shape="" offset="3618" size="8" />
+			<output>
+				<port id="0" precision="I64" names="/backbone.7/Cast_output_0" />
+			</output>
+		</layer>
+		<layer id="66" name="Constant_133" type="Const" version="opset1">
+			<data element_type="i64" shape="" offset="3618" size="8" />
+			<output>
+				<port id="0" precision="I64" />
+			</output>
+		</layer>
+		<layer id="67" name="/backbone.7/Gather" type="Gather" version="opset8">
+			<data batch_dims="0" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+				<port id="1" precision="I64" />
+				<port id="2" precision="I64" />
+			</input>
+			<output>
+				<port id="3" precision="FP32" names="/backbone.7/Gather_output_0">
+					<dim>128</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="68" name="Constant_135" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="3618" size="8" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="69" name="/backbone.7/Unsqueeze" type="Unsqueeze" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>128</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.7/Unsqueeze_output_0">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="70" name="/backbone.7/max_pool_2d/MaxPool" type="MaxPool" version="opset8">
+			<data strides="1, 2" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" kernel="3, 3" rounding_type="floor" auto_pad="explicit" index_element_type="i64" axis="0" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>20</dim>
+					<dim>90</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.7/max_pool_2d/MaxPool_output_0">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="2" precision="I64">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="71" name="Constant_138" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="3618" size="8" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="72" name="/backbone.7/Squeeze" type="Squeeze" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.7/Squeeze_output_0">
+					<dim>128</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="73" name="Constant_140" type="Const" version="opset1">
+			<data element_type="i64" shape="3" offset="3626" size="24" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="74" name="/backbone.7/Transpose" type="Transpose" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>128</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.7/Transpose_output_0">
+					<dim>18</dim>
+					<dim>44</dim>
+					<dim>128</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="75" name="/backbone.7/max_pool_1d/MaxPool" type="MaxPool" version="opset8">
+			<data strides="2" dilations="1" pads_begin="0" pads_end="0" kernel="1" rounding_type="floor" auto_pad="explicit" index_element_type="i64" axis="0" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>18</dim>
+					<dim>44</dim>
+					<dim>128</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.7/max_pool_1d/MaxPool_output_0">
+					<dim>18</dim>
+					<dim>44</dim>
+					<dim>64</dim>
+				</port>
+				<port id="2" precision="I64">
+					<dim>18</dim>
+					<dim>44</dim>
+					<dim>64</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="76" name="Constant_143" type="Const" version="opset1">
+			<data element_type="i64" shape="3" offset="3650" size="24" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="77" name="/backbone.7/Transpose_1" type="Transpose" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>18</dim>
+					<dim>44</dim>
+					<dim>64</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.7/Transpose_1_output_0">
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="78" name="Constant_145" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="3618" size="8" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="79" name="/backbone.7/Unsqueeze_1" type="Unsqueeze" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.7/Concat_output_0,/backbone.7/Unsqueeze_1_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="80" name="backbone.8.block.0.weight_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="64, 64, 1, 1" offset="28698" size="8192" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="81" name="backbone.8.block.0.weight" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="backbone.8.block.0.weight">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="82" name="/backbone.8/block/block.0/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="83" name="Reshape_159_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 64, 1, 1" offset="36890" size="128" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="84" name="Reshape_159" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="85" name="/backbone.8/block/block.0/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.8/block/block.0/Conv_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="86" name="/backbone.8/block/block.1/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.8/block/block.1/Relu_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="87" name="backbone.8.block.2.weight_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="64, 64, 3, 1" offset="37018" size="24576" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>3</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="88" name="backbone.8.block.2.weight" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>3</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="backbone.8.block.2.weight">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>3</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="89" name="/backbone.8/block/block.2/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="1, 0" pads_end="1, 0" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>3</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="90" name="Reshape_175_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 64, 1, 1" offset="61594" size="128" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="91" name="Reshape_175" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="92" name="/backbone.8/block/block.2/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.8/block/block.2/Conv_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="93" name="/backbone.8/block/block.3/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.8/block/block.3/Relu_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="94" name="backbone.8.block.4.weight_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="64, 64, 1, 3" offset="61722" size="24576" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="95" name="backbone.8.block.4.weight" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="backbone.8.block.4.weight">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="96" name="/backbone.8/block/block.4/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 1" pads_end="0, 1" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="97" name="Reshape_191_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 64, 1, 1" offset="86298" size="128" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="98" name="Reshape_191" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="99" name="/backbone.8/block/block.4/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.8/block/block.4/Conv_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="100" name="/backbone.8/block/block.5/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.8/block/block.5/Relu_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="101" name="onnx::Conv_162_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="256, 64, 1, 1" offset="86426" size="32768" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>256</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="102" name="onnx::Conv_162" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>256</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="onnx::Conv_162">
+					<dim>256</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="103" name="/backbone.8/block/block.6/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>256</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="104" name="Reshape_207_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 256, 1, 1" offset="119194" size="512" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="105" name="Reshape_207" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="106" name="/backbone.8/block/block.6/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.8/block/block.6/Conv_output_0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="107" name="/backbone.10/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.10/Relu_output_0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="108" name="backbone.11.block.0.weight_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="64, 256, 1, 1" offset="119706" size="32768" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="109" name="backbone.11.block.0.weight" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="backbone.11.block.0.weight">
+					<dim>64</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="110" name="/backbone.11/block/block.0/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>64</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="111" name="Reshape_223_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 64, 1, 1" offset="152474" size="128" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="112" name="Reshape_223" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="113" name="/backbone.11/block/block.0/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.11/block/block.0/Conv_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="114" name="/backbone.11/block/block.1/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.11/block/block.1/Relu_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="115" name="backbone.11.block.2.weight_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="64, 64, 3, 1" offset="152602" size="24576" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>3</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="116" name="backbone.11.block.2.weight" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>3</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="backbone.11.block.2.weight">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>3</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="117" name="/backbone.11/block/block.2/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="1, 0" pads_end="1, 0" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>3</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="118" name="Reshape_239_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 64, 1, 1" offset="177178" size="128" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="119" name="Reshape_239" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="120" name="/backbone.11/block/block.2/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.11/block/block.2/Conv_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="121" name="/backbone.11/block/block.3/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.11/block/block.3/Relu_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="122" name="backbone.11.block.4.weight_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="64, 64, 1, 3" offset="177306" size="24576" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="123" name="backbone.11.block.4.weight" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="backbone.11.block.4.weight">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="124" name="/backbone.11/block/block.4/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 1" pads_end="0, 1" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>64</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="125" name="Reshape_255_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 64, 1, 1" offset="201882" size="128" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="126" name="Reshape_255" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="127" name="/backbone.11/block/block.4/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.11/block/block.4/Conv_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="128" name="/backbone.11/block/block.5/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.11/block/block.5/Relu_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="129" name="onnx::Conv_165_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="256, 64, 1, 1" offset="202010" size="32768" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>256</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="130" name="onnx::Conv_165" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>256</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="onnx::Conv_165">
+					<dim>256</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="131" name="/backbone.11/block/block.6/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>256</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="132" name="Reshape_271_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 256, 1, 1" offset="234778" size="512" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="133" name="Reshape_271" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="134" name="/backbone.11/block/block.6/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.11/block/block.6/Conv_output_0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="135" name="/backbone.13/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/Pad_2_output_0,/backbone.13/Relu_output_0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="136" name="/AveragePool_2" type="AvgPool" version="opset1">
+			<data kernel="4, 10" strides="4, 2" pads_begin="0, 0" pads_end="0, 0" exclude-pad="true" auto_pad="explicit" rounding_type="floor" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/AveragePool_2_output_0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="137" name="Constant_1629_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 1, 1, 1" offset="3584" size="2" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="138" name="Constant_1629" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="139" name="/Pow_2" type="Power" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/Pow_2_output_0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="140" name="Constant_354" type="Const" version="opset1">
+			<data element_type="i64" shape="4" offset="3586" size="32" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>4</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="141" name="/ReduceMean_2" type="ReduceMean" version="opset1">
+			<data keep_dims="false" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>4</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/ReduceMean_2_output_0" />
+			</output>
+		</layer>
+		<layer id="142" name="/Div_2" type="Divide" version="opset1">
+			<data auto_broadcast="numpy" m_pythondiv="true" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="FP32" />
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/Div_2_output_0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="143" name="/backbone.14/Cast" type="Const" version="opset1">
+			<data element_type="i64" shape="" offset="3618" size="8" />
+			<output>
+				<port id="0" precision="I64" names="/backbone.14/Cast_output_0" />
+			</output>
+		</layer>
+		<layer id="144" name="Constant_278" type="Const" version="opset1">
+			<data element_type="i64" shape="" offset="3618" size="8" />
+			<output>
+				<port id="0" precision="I64" />
+			</output>
+		</layer>
+		<layer id="145" name="/backbone.14/Gather" type="Gather" version="opset8">
+			<data batch_dims="0" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="I64" />
+				<port id="2" precision="I64" />
+			</input>
+			<output>
+				<port id="3" precision="FP32" names="/backbone.14/Gather_output_0">
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="146" name="Constant_280" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="3618" size="8" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="147" name="/backbone.14/Unsqueeze" type="Unsqueeze" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.14/Unsqueeze_output_0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="148" name="/backbone.14/max_pool_2d/MaxPool" type="MaxPool" version="opset8">
+			<data strides="1, 2" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" kernel="3, 3" rounding_type="floor" auto_pad="explicit" index_element_type="i64" axis="0" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>18</dim>
+					<dim>44</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.14/max_pool_2d/MaxPool_output_0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>16</dim>
+					<dim>21</dim>
+				</port>
+				<port id="2" precision="I64">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>16</dim>
+					<dim>21</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="149" name="Constant_283" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="3618" size="8" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="150" name="/backbone.14/Squeeze" type="Squeeze" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>16</dim>
+					<dim>21</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.14/Squeeze_output_0">
+					<dim>256</dim>
+					<dim>16</dim>
+					<dim>21</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="151" name="Constant_285" type="Const" version="opset1">
+			<data element_type="i64" shape="3" offset="3626" size="24" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="152" name="/backbone.14/Transpose" type="Transpose" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>256</dim>
+					<dim>16</dim>
+					<dim>21</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.14/Transpose_output_0">
+					<dim>16</dim>
+					<dim>21</dim>
+					<dim>256</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="153" name="/backbone.14/max_pool_1d/MaxPool" type="MaxPool" version="opset8">
+			<data strides="4" dilations="1" pads_begin="0" pads_end="0" kernel="1" rounding_type="floor" auto_pad="explicit" index_element_type="i64" axis="0" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>16</dim>
+					<dim>21</dim>
+					<dim>256</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.14/max_pool_1d/MaxPool_output_0">
+					<dim>16</dim>
+					<dim>21</dim>
+					<dim>64</dim>
+				</port>
+				<port id="2" precision="I64">
+					<dim>16</dim>
+					<dim>21</dim>
+					<dim>64</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="154" name="Constant_288" type="Const" version="opset1">
+			<data element_type="i64" shape="3" offset="3650" size="24" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>3</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="155" name="/backbone.14/Transpose_1" type="Transpose" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>16</dim>
+					<dim>21</dim>
+					<dim>64</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>3</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.14/Transpose_1_output_0">
+					<dim>64</dim>
+					<dim>16</dim>
+					<dim>21</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="156" name="Constant_290" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="3618" size="8" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="157" name="/backbone.14/Unsqueeze_1" type="Unsqueeze" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>64</dim>
+					<dim>16</dim>
+					<dim>21</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.14/Concat_output_0,/backbone.14/Unsqueeze_1_output_0">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>16</dim>
+					<dim>21</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="158" name="onnx::Conv_168_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="256, 64, 1, 4" offset="235290" size="131072" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>256</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>4</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="159" name="onnx::Conv_168" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>256</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>4</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="onnx::Conv_168">
+					<dim>256</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>4</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="160" name="/backbone.16/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>16</dim>
+					<dim>21</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>256</dim>
+					<dim>64</dim>
+					<dim>1</dim>
+					<dim>4</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>16</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="161" name="Reshape_304_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 256, 1, 1" offset="366362" size="512" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="162" name="Reshape_304" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="163" name="/backbone.16/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>16</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.16/Conv_output_0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>16</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="164" name="/backbone.18/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>16</dim>
+					<dim>18</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.18/Relu_output_0">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>16</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="165" name="onnx::Conv_171_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="68, 256, 13, 1" offset="366874" size="452608" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>68</dim>
+					<dim>256</dim>
+					<dim>13</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="166" name="onnx::Conv_171" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>68</dim>
+					<dim>256</dim>
+					<dim>13</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="onnx::Conv_171">
+					<dim>68</dim>
+					<dim>256</dim>
+					<dim>13</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="167" name="/backbone.20/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>16</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>68</dim>
+					<dim>256</dim>
+					<dim>13</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="168" name="Reshape_320_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 68, 1, 1" offset="819482" size="136" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="169" name="Reshape_320" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="170" name="/backbone.20/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/backbone.20/Conv_output_0">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="171" name="/backbone.22/Relu" type="ReLU" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="/backbone.22/Relu_output_0">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="172" name="Constant_1630_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 1, 1, 1" offset="3584" size="2" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="173" name="Constant_1630" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="174" name="/Pow_3" type="Power" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/Pow_3_output_0">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="175" name="Constant_359" type="Const" version="opset1">
+			<data element_type="i64" shape="4" offset="3586" size="32" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>4</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="176" name="/ReduceMean_3" type="ReduceMean" version="opset1">
+			<data keep_dims="false" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>4</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/ReduceMean_3_output_0" />
+			</output>
+		</layer>
+		<layer id="177" name="/Div_3" type="Divide" version="opset1">
+			<data auto_broadcast="numpy" m_pythondiv="true" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="FP32" />
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/Div_3_output_0">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="178" name="/Concat" type="Concat" version="opset1">
+			<data axis="1" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>64</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>128</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>256</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="3" precision="FP32">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</input>
+			<output>
+				<port id="4" precision="FP32" names="/Concat_output_0">
+					<dim>1</dim>
+					<dim>516</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="179" name="container.0.weight_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="68, 516, 1, 1" offset="819618" size="70176" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>68</dim>
+					<dim>516</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="180" name="container.0.weight" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>68</dim>
+					<dim>516</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32" names="container.0.weight">
+					<dim>68</dim>
+					<dim>516</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="181" name="/container/container.0/Conv/WithoutBiases" type="Convolution" version="opset1">
+			<data strides="1, 1" dilations="1, 1" pads_begin="0, 0" pads_end="0, 0" auto_pad="explicit" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>516</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>68</dim>
+					<dim>516</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="182" name="Reshape_374_compressed" type="Const" version="opset1">
+			<data element_type="f16" shape="1, 68, 1, 1" offset="889794" size="136" />
+			<output>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="183" name="Reshape_374" type="Convert" version="opset1">
+			<data destination_type="f32" />
+			<rt_info>
+				<attribute name="decompression" version="0" />
+			</rt_info>
+			<input>
+				<port id="0" precision="FP16">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="184" name="/container/container.0/Conv" type="Add" version="opset1">
+			<data auto_broadcast="numpy" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="FP32">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>1</dim>
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="/container/container.0/Conv_output_0">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="185" name="Constant_378" type="Const" version="opset1">
+			<data element_type="i64" shape="1" offset="889930" size="8" />
+			<output>
+				<port id="0" precision="I64">
+					<dim>1</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="186" name="output" type="ReduceMean" version="opset1">
+			<data keep_dims="false" />
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>4</dim>
+					<dim>18</dim>
+				</port>
+				<port id="1" precision="I64">
+					<dim>1</dim>
+				</port>
+			</input>
+			<output>
+				<port id="2" precision="FP32" names="output">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>18</dim>
+				</port>
+			</output>
+		</layer>
+		<layer id="187" name="output/sink_port_0" type="Result" version="opset1">
+			<input>
+				<port id="0" precision="FP32">
+					<dim>1</dim>
+					<dim>68</dim>
+					<dim>18</dim>
+				</port>
+			</input>
+		</layer>
+	</layers>
+	<edges>
+		<edge from-layer="0" from-port="0" to-layer="3" to-port="0" />
+		<edge from-layer="1" from-port="0" to-layer="2" to-port="0" />
+		<edge from-layer="2" from-port="1" to-layer="3" to-port="1" />
+		<edge from-layer="3" from-port="2" to-layer="6" to-port="0" />
+		<edge from-layer="4" from-port="0" to-layer="5" to-port="0" />
+		<edge from-layer="5" from-port="1" to-layer="6" to-port="1" />
+		<edge from-layer="6" from-port="2" to-layer="7" to-port="0" />
+		<edge from-layer="7" from-port="1" to-layer="8" to-port="0" />
+		<edge from-layer="7" from-port="1" to-layer="17" to-port="0" />
+		<edge from-layer="8" from-port="1" to-layer="11" to-port="0" />
+		<edge from-layer="8" from-port="1" to-layer="14" to-port="0" />
+		<edge from-layer="9" from-port="0" to-layer="10" to-port="0" />
+		<edge from-layer="10" from-port="1" to-layer="11" to-port="1" />
+		<edge from-layer="11" from-port="2" to-layer="13" to-port="0" />
+		<edge from-layer="12" from-port="0" to-layer="13" to-port="1" />
+		<edge from-layer="13" from-port="2" to-layer="14" to-port="1" />
+		<edge from-layer="14" from-port="2" to-layer="178" to-port="0" />
+		<edge from-layer="15" from-port="0" to-layer="17" to-port="1" />
+		<edge from-layer="16" from-port="0" to-layer="17" to-port="2" />
+		<edge from-layer="17" from-port="3" to-layer="19" to-port="0" />
+		<edge from-layer="18" from-port="0" to-layer="19" to-port="1" />
+		<edge from-layer="19" from-port="2" to-layer="20" to-port="0" />
+		<edge from-layer="20" from-port="1" to-layer="22" to-port="0" />
+		<edge from-layer="21" from-port="0" to-layer="22" to-port="1" />
+		<edge from-layer="22" from-port="2" to-layer="24" to-port="0" />
+		<edge from-layer="23" from-port="0" to-layer="24" to-port="1" />
+		<edge from-layer="24" from-port="2" to-layer="25" to-port="0" />
+		<edge from-layer="25" from-port="1" to-layer="27" to-port="0" />
+		<edge from-layer="26" from-port="0" to-layer="27" to-port="1" />
+		<edge from-layer="27" from-port="2" to-layer="29" to-port="0" />
+		<edge from-layer="28" from-port="0" to-layer="29" to-port="1" />
+		<edge from-layer="29" from-port="2" to-layer="32" to-port="0" />
+		<edge from-layer="30" from-port="0" to-layer="31" to-port="0" />
+		<edge from-layer="31" from-port="1" to-layer="32" to-port="1" />
+		<edge from-layer="32" from-port="2" to-layer="35" to-port="0" />
+		<edge from-layer="33" from-port="0" to-layer="34" to-port="0" />
+		<edge from-layer="34" from-port="1" to-layer="35" to-port="1" />
+		<edge from-layer="35" from-port="2" to-layer="36" to-port="0" />
+		<edge from-layer="36" from-port="1" to-layer="39" to-port="0" />
+		<edge from-layer="37" from-port="0" to-layer="38" to-port="0" />
+		<edge from-layer="38" from-port="1" to-layer="39" to-port="1" />
+		<edge from-layer="39" from-port="2" to-layer="42" to-port="0" />
+		<edge from-layer="40" from-port="0" to-layer="41" to-port="0" />
+		<edge from-layer="41" from-port="1" to-layer="42" to-port="1" />
+		<edge from-layer="42" from-port="2" to-layer="43" to-port="0" />
+		<edge from-layer="43" from-port="1" to-layer="46" to-port="0" />
+		<edge from-layer="44" from-port="0" to-layer="45" to-port="0" />
+		<edge from-layer="45" from-port="1" to-layer="46" to-port="1" />
+		<edge from-layer="46" from-port="2" to-layer="49" to-port="0" />
+		<edge from-layer="47" from-port="0" to-layer="48" to-port="0" />
+		<edge from-layer="48" from-port="1" to-layer="49" to-port="1" />
+		<edge from-layer="49" from-port="2" to-layer="50" to-port="0" />
+		<edge from-layer="50" from-port="1" to-layer="53" to-port="0" />
+		<edge from-layer="51" from-port="0" to-layer="52" to-port="0" />
+		<edge from-layer="52" from-port="1" to-layer="53" to-port="1" />
+		<edge from-layer="53" from-port="2" to-layer="56" to-port="0" />
+		<edge from-layer="54" from-port="0" to-layer="55" to-port="0" />
+		<edge from-layer="55" from-port="1" to-layer="56" to-port="1" />
+		<edge from-layer="56" from-port="2" to-layer="57" to-port="0" />
+		<edge from-layer="57" from-port="1" to-layer="58" to-port="0" />
+		<edge from-layer="57" from-port="1" to-layer="67" to-port="0" />
+		<edge from-layer="58" from-port="1" to-layer="61" to-port="0" />
+		<edge from-layer="58" from-port="1" to-layer="64" to-port="0" />
+		<edge from-layer="59" from-port="0" to-layer="60" to-port="0" />
+		<edge from-layer="60" from-port="1" to-layer="61" to-port="1" />
+		<edge from-layer="61" from-port="2" to-layer="63" to-port="0" />
+		<edge from-layer="62" from-port="0" to-layer="63" to-port="1" />
+		<edge from-layer="63" from-port="2" to-layer="64" to-port="1" />
+		<edge from-layer="64" from-port="2" to-layer="178" to-port="1" />
+		<edge from-layer="65" from-port="0" to-layer="67" to-port="1" />
+		<edge from-layer="66" from-port="0" to-layer="67" to-port="2" />
+		<edge from-layer="67" from-port="3" to-layer="69" to-port="0" />
+		<edge from-layer="68" from-port="0" to-layer="69" to-port="1" />
+		<edge from-layer="69" from-port="2" to-layer="70" to-port="0" />
+		<edge from-layer="70" from-port="1" to-layer="72" to-port="0" />
+		<edge from-layer="71" from-port="0" to-layer="72" to-port="1" />
+		<edge from-layer="72" from-port="2" to-layer="74" to-port="0" />
+		<edge from-layer="73" from-port="0" to-layer="74" to-port="1" />
+		<edge from-layer="74" from-port="2" to-layer="75" to-port="0" />
+		<edge from-layer="75" from-port="1" to-layer="77" to-port="0" />
+		<edge from-layer="76" from-port="0" to-layer="77" to-port="1" />
+		<edge from-layer="77" from-port="2" to-layer="79" to-port="0" />
+		<edge from-layer="78" from-port="0" to-layer="79" to-port="1" />
+		<edge from-layer="79" from-port="2" to-layer="82" to-port="0" />
+		<edge from-layer="80" from-port="0" to-layer="81" to-port="0" />
+		<edge from-layer="81" from-port="1" to-layer="82" to-port="1" />
+		<edge from-layer="82" from-port="2" to-layer="85" to-port="0" />
+		<edge from-layer="83" from-port="0" to-layer="84" to-port="0" />
+		<edge from-layer="84" from-port="1" to-layer="85" to-port="1" />
+		<edge from-layer="85" from-port="2" to-layer="86" to-port="0" />
+		<edge from-layer="86" from-port="1" to-layer="89" to-port="0" />
+		<edge from-layer="87" from-port="0" to-layer="88" to-port="0" />
+		<edge from-layer="88" from-port="1" to-layer="89" to-port="1" />
+		<edge from-layer="89" from-port="2" to-layer="92" to-port="0" />
+		<edge from-layer="90" from-port="0" to-layer="91" to-port="0" />
+		<edge from-layer="91" from-port="1" to-layer="92" to-port="1" />
+		<edge from-layer="92" from-port="2" to-layer="93" to-port="0" />
+		<edge from-layer="93" from-port="1" to-layer="96" to-port="0" />
+		<edge from-layer="94" from-port="0" to-layer="95" to-port="0" />
+		<edge from-layer="95" from-port="1" to-layer="96" to-port="1" />
+		<edge from-layer="96" from-port="2" to-layer="99" to-port="0" />
+		<edge from-layer="97" from-port="0" to-layer="98" to-port="0" />
+		<edge from-layer="98" from-port="1" to-layer="99" to-port="1" />
+		<edge from-layer="99" from-port="2" to-layer="100" to-port="0" />
+		<edge from-layer="100" from-port="1" to-layer="103" to-port="0" />
+		<edge from-layer="101" from-port="0" to-layer="102" to-port="0" />
+		<edge from-layer="102" from-port="1" to-layer="103" to-port="1" />
+		<edge from-layer="103" from-port="2" to-layer="106" to-port="0" />
+		<edge from-layer="104" from-port="0" to-layer="105" to-port="0" />
+		<edge from-layer="105" from-port="1" to-layer="106" to-port="1" />
+		<edge from-layer="106" from-port="2" to-layer="107" to-port="0" />
+		<edge from-layer="107" from-port="1" to-layer="110" to-port="0" />
+		<edge from-layer="108" from-port="0" to-layer="109" to-port="0" />
+		<edge from-layer="109" from-port="1" to-layer="110" to-port="1" />
+		<edge from-layer="110" from-port="2" to-layer="113" to-port="0" />
+		<edge from-layer="111" from-port="0" to-layer="112" to-port="0" />
+		<edge from-layer="112" from-port="1" to-layer="113" to-port="1" />
+		<edge from-layer="113" from-port="2" to-layer="114" to-port="0" />
+		<edge from-layer="114" from-port="1" to-layer="117" to-port="0" />
+		<edge from-layer="115" from-port="0" to-layer="116" to-port="0" />
+		<edge from-layer="116" from-port="1" to-layer="117" to-port="1" />
+		<edge from-layer="117" from-port="2" to-layer="120" to-port="0" />
+		<edge from-layer="118" from-port="0" to-layer="119" to-port="0" />
+		<edge from-layer="119" from-port="1" to-layer="120" to-port="1" />
+		<edge from-layer="120" from-port="2" to-layer="121" to-port="0" />
+		<edge from-layer="121" from-port="1" to-layer="124" to-port="0" />
+		<edge from-layer="122" from-port="0" to-layer="123" to-port="0" />
+		<edge from-layer="123" from-port="1" to-layer="124" to-port="1" />
+		<edge from-layer="124" from-port="2" to-layer="127" to-port="0" />
+		<edge from-layer="125" from-port="0" to-layer="126" to-port="0" />
+		<edge from-layer="126" from-port="1" to-layer="127" to-port="1" />
+		<edge from-layer="127" from-port="2" to-layer="128" to-port="0" />
+		<edge from-layer="128" from-port="1" to-layer="131" to-port="0" />
+		<edge from-layer="129" from-port="0" to-layer="130" to-port="0" />
+		<edge from-layer="130" from-port="1" to-layer="131" to-port="1" />
+		<edge from-layer="131" from-port="2" to-layer="134" to-port="0" />
+		<edge from-layer="132" from-port="0" to-layer="133" to-port="0" />
+		<edge from-layer="133" from-port="1" to-layer="134" to-port="1" />
+		<edge from-layer="134" from-port="2" to-layer="135" to-port="0" />
+		<edge from-layer="135" from-port="1" to-layer="136" to-port="0" />
+		<edge from-layer="135" from-port="1" to-layer="145" to-port="0" />
+		<edge from-layer="136" from-port="1" to-layer="139" to-port="0" />
+		<edge from-layer="136" from-port="1" to-layer="142" to-port="0" />
+		<edge from-layer="137" from-port="0" to-layer="138" to-port="0" />
+		<edge from-layer="138" from-port="1" to-layer="139" to-port="1" />
+		<edge from-layer="139" from-port="2" to-layer="141" to-port="0" />
+		<edge from-layer="140" from-port="0" to-layer="141" to-port="1" />
+		<edge from-layer="141" from-port="2" to-layer="142" to-port="1" />
+		<edge from-layer="142" from-port="2" to-layer="178" to-port="2" />
+		<edge from-layer="143" from-port="0" to-layer="145" to-port="1" />
+		<edge from-layer="144" from-port="0" to-layer="145" to-port="2" />
+		<edge from-layer="145" from-port="3" to-layer="147" to-port="0" />
+		<edge from-layer="146" from-port="0" to-layer="147" to-port="1" />
+		<edge from-layer="147" from-port="2" to-layer="148" to-port="0" />
+		<edge from-layer="148" from-port="1" to-layer="150" to-port="0" />
+		<edge from-layer="149" from-port="0" to-layer="150" to-port="1" />
+		<edge from-layer="150" from-port="2" to-layer="152" to-port="0" />
+		<edge from-layer="151" from-port="0" to-layer="152" to-port="1" />
+		<edge from-layer="152" from-port="2" to-layer="153" to-port="0" />
+		<edge from-layer="153" from-port="1" to-layer="155" to-port="0" />
+		<edge from-layer="154" from-port="0" to-layer="155" to-port="1" />
+		<edge from-layer="155" from-port="2" to-layer="157" to-port="0" />
+		<edge from-layer="156" from-port="0" to-layer="157" to-port="1" />
+		<edge from-layer="157" from-port="2" to-layer="160" to-port="0" />
+		<edge from-layer="158" from-port="0" to-layer="159" to-port="0" />
+		<edge from-layer="159" from-port="1" to-layer="160" to-port="1" />
+		<edge from-layer="160" from-port="2" to-layer="163" to-port="0" />
+		<edge from-layer="161" from-port="0" to-layer="162" to-port="0" />
+		<edge from-layer="162" from-port="1" to-layer="163" to-port="1" />
+		<edge from-layer="163" from-port="2" to-layer="164" to-port="0" />
+		<edge from-layer="164" from-port="1" to-layer="167" to-port="0" />
+		<edge from-layer="165" from-port="0" to-layer="166" to-port="0" />
+		<edge from-layer="166" from-port="1" to-layer="167" to-port="1" />
+		<edge from-layer="167" from-port="2" to-layer="170" to-port="0" />
+		<edge from-layer="168" from-port="0" to-layer="169" to-port="0" />
+		<edge from-layer="169" from-port="1" to-layer="170" to-port="1" />
+		<edge from-layer="170" from-port="2" to-layer="171" to-port="0" />
+		<edge from-layer="171" from-port="1" to-layer="177" to-port="0" />
+		<edge from-layer="171" from-port="1" to-layer="174" to-port="0" />
+		<edge from-layer="172" from-port="0" to-layer="173" to-port="0" />
+		<edge from-layer="173" from-port="1" to-layer="174" to-port="1" />
+		<edge from-layer="174" from-port="2" to-layer="176" to-port="0" />
+		<edge from-layer="175" from-port="0" to-layer="176" to-port="1" />
+		<edge from-layer="176" from-port="2" to-layer="177" to-port="1" />
+		<edge from-layer="177" from-port="2" to-layer="178" to-port="3" />
+		<edge from-layer="178" from-port="4" to-layer="181" to-port="0" />
+		<edge from-layer="179" from-port="0" to-layer="180" to-port="0" />
+		<edge from-layer="180" from-port="1" to-layer="181" to-port="1" />
+		<edge from-layer="181" from-port="2" to-layer="184" to-port="0" />
+		<edge from-layer="182" from-port="0" to-layer="183" to-port="0" />
+		<edge from-layer="183" from-port="1" to-layer="184" to-port="1" />
+		<edge from-layer="184" from-port="2" to-layer="186" to-port="0" />
+		<edge from-layer="185" from-port="0" to-layer="186" to-port="1" />
+		<edge from-layer="186" from-port="2" to-layer="187" to-port="0" />
+	</edges>
+	<rt_info>
+		<MO_version value="2023.0.0-10926-b4452d56304-releases/2023/0" />
+		<Runtime_version value="2023.0.0-10926-b4452d56304-releases/2023/0" />
+		<conversion_parameters>
+			<batch value="1" />
+			<compress_to_fp16 value="True" />
+			<framework value="onnx" />
+			<input_model value="DIR\mybestLPRNet.onnx" />
+			<is_python_api_used value="True" />
+			<model_name value="C:\codes\python_codes\dl_practice\CarRecognization\weights\LPRNet" />
+			<output value="output" />
+		</conversion_parameters>
+		<legacy_frontend value="False" />
+	</rt_info>
+</net>

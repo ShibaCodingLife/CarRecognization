@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Student Info Management System</title>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{{ url_for('static', filename='register.css') }}"
+		/>
+		<script src="{{ url_for('static', filename='node_modules/argon2-browser/dist/argon2-bundled.min.js') }}"></script>
+	</head>
+	<body>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js">
+			//导入Jquery模块以便前端识别JS$相应函数
+		</script>
+		<div class="main">
+			<div class="text">
+				<span class="one"><strong>欢迎来到</strong></span>
+				<br />
+				<span><strong>教学</strong></span>
+				<br />
+				<span><strong>学生信息管理系统</strong></span>
+			</div>
+
+			<div class="mainframe">
+				<p class="loginword" style="margin-top: 20px">
+					<strong>新用户注册</strong>
+				</p>
+				<div class="账号">
+					<label class="user">
+						<span></span>
+						<span>创建新用户名</span>
+						<input type="text" placeholder="输入用户名" id="name" />
+					</label>
+				</div>
+
+				<div class="密码">
+					<label class="pass">
+						<span></span>
+						<span>输入新密码</span>
+						<input
+							type="password"
+							placeholder="输入你的新密码,只允许有数字及大小写字母"
+							id="pass"
+						/>
+					</label>
+				</div>
+
+				<div class="密码">
+					<label class="pass">
+						<span></span>
+						<span>确认新密码</span>
+						<input
+							type="password"
+							placeholder="再次确认你的新密码"
+							id="pass2"
+						/>
+					</label>
+				</div>
+
+				<div>
+					<input
+						id="code"
+						type="text"
+						style="width: 200px; height: 50px; margin-top: 20px"
+						placeholder="请输入右方验证码的答案"
+					/>
+					<img
+						id="captchaImage"
+						src="{{ image_path }}?{{ random_parameter }}"
+						alt="captcha"
+						style="
+							position: absolute;
+							margin-left: 50px;
+							border-radius: 10px;
+							margin-top: 20px;
+						"
+					/>
+					<button
+						id="change-captcha"
+						style="
+							position: absolute;
+							margin-left: 218px;
+							margin-top: 60px;
+							background: rgba(225, 255, 255, 0.3);
+							border: none;
+							outline: none;
+							border-radius: 5px;
+							color: white;
+						"
+						onclick="changeCaptcha()"
+					>
+						看不清?换一张
+					</button>
+				</div>
+
+				<button
+					id="dd"
+					style="margin-left: 130px; margin-top: 50px"
+					onclick="return1()"
+				>
+					<span>返回登录</span>
+				</button>
+
+				<button
+					id="dd2"
+					style="position: absolute; margin-left: 100px; margin-top: 50px"
+				>
+					<span>注册</span>
+				</button>
+			</div>
+		</div>
+		<script>
+			$(document).ready(function () {
+				$("#dd2").on("click", function (e) {
+					let name = $("#name").val();
+					let password = $("#pass").val();
+					let password2 = $("#pass2").val();
+					let code = $("#code").val();
+					if (!name || !password || !code) {
+						alert("您的信息没有填写完整,请填写完整后登录!");
+						return;
+					}
+					let unsafePattern = /['"%;)/\\]/;
+					if (unsafePattern.test(name) || unsafePattern.test(password)) {
+						alert("输入包含不安全字符，请重新输入!");
+						return;
+					}
+					if (password != password2) {
+						alert("两次密码输入不一致,请确认密码!");
+						return;
+					}
+					if (name && password) {
+						argon2
+							.hash({ pass: password, salt: "SIMS_NaCl" })
+							.then((res) => {
+								$.post(
+									"/register_get",
+									{ name: name, password: res.hashHex, code: code },
+									function (data) {
+										if (data.success) alert("您的信息已成功注册!");
+										else {
+											alert(data.info);
+										}
+									}
+								);
+							})
+							.catch((err) => {
+								console.log(err);
+								alert(err);
+							});
+					}
+				});
+			});
+
+			function return1() {
+				window.location.href = "/login.html";
+			}
+
+			function changeCaptcha() {
+				// 向后端请求新的验证码图像
+				fetch("/change_captcha")
+					.then((response) => response.json())
+					.then((data) => {
+						const randomParameter = Math.random();
+						document.querySelector("img").src = data.image_path;
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			}
+		</script>
+	</body>
+</html>

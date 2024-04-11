@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "web-info-system"
+version = "0.1.0"
+description = ""
+authors = ["Web team <dk@pornhub.com>"]
+readme = "README.md"
+packages = [{include = "web_info_system"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pillow = "^10.1.0"
+flask = "^3.0.0"
+flask-sqlalchemy = "^3.1.1"
+pyyaml = "^6.0.1"
+pycryptodome = "^3.19.0"
+pydantic = "^2.4.2"
+cachetools = "^5.3.2"
+types-cachetools = "^5.3.0.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

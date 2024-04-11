@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Student Info Management System</title>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{{ url_for('static', filename='login.css') }}"
+		/>
+		<script src="{{ url_for('static', filename='node_modules/argon2-browser/dist/argon2-bundled.min.js') }}"></script>
+	</head>
+	<body>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js">
+			//导入Jquery模块以便前端识别JS$相应函数
+		</script>
+		<div class="main">
+			<div class="text">
+				<span class="one"><strong>欢迎来到</strong></span>
+				<br />
+				<span><strong>教学</strong></span>
+				<br />
+				<span><strong>学生信息管理系统</strong></span>
+			</div>
+
+			<div class="mainframe">
+				<p class="loginword" style="margin-top: 20px">
+					<strong>用户登录</strong>
+				</p>
+				<div class="账号">
+					<label class="user">
+						<span></span>
+						<span>用户名</span>
+						<input type="text" placeholder="输入用户名" id="name" />
+					</label>
+				</div>
+
+				<div class="密码">
+					<label class="pass">
+						<span></span>
+						<span>密码</span>
+						<input type="password" placeholder="输入你的密码" id="pass" />
+					</label>
+				</div>
+
+				<div>
+					<input
+						id="code"
+						type="text"
+						style="width: 200px; height: 50px; margin-top: 20px"
+						placeholder="请输入右方验证码的答案"
+					/>
+					<img
+						id="captchaImage"
+						src="{{ image_path }}"
+						alt="captcha"
+						style="
+							position: absolute;
+							margin-left: 50px;
+							border-radius: 10px;
+							margin-top: 20px;
+						"
+					/>
+					<button
+						id="change-captcha"
+						style="
+							position: absolute;
+							margin-left: 218px;
+							margin-top: 60px;
+							background: rgba(225, 255, 255, 0.3);
+							border: none;
+							outline: none;
+							border-radius: 5px;
+							color: white;
+						"
+						onclick="changeCaptcha()"
+					>
+						看不清?换一张
+					</button>
+				</div>
+
+				<button id="dd" style="margin-left: 130px; margin-top: 50px">
+					<span>登录</span>
+				</button>
+
+				<button
+					id="dd2"
+					style="position: absolute; margin-left: 100px; margin-top: 50px"
+					onclick="register()"
+				>
+					<span>注册</span>
+				</button>
+			</div>
+		</div>
+		<script>
+			//我们项目的相应函数基本用下面的$就可以,不需要在用什么form里的请求,将组件和函数分开写,逻辑也清晰
+			$(document).ready(function () {
+				/*这是处理登录的JS相应代码,用JS$来监听按钮(也就是id="dd")的"click"事件.取出两个文本框的内容后用post向flask的app.py相应端口
+    发送请求,这里我的端口为/login_get,方法为post,那你的后端method也要写上post就可以,函数的参数就写在post()的第二个参数位置,然后对后端处理后的数据data进行处理,下面的函数写的很清晰*/ $(
+					"#dd"
+				).on("click", function (e) {
+					let name = $("#name").val();
+					let password = $("#pass").val();
+					let code = $("#code").val();
+					if (!name || !password || !code) {
+						alert("您的信息没有填写完整,请填写完整后登录!");
+						return;
+					}
+					let unsafePattern = /['"%;)/\\]/;
+					if (unsafePattern.test(name) || unsafePattern.test(password)) {
+						alert("输入包含不安全字符，请重新输入!");
+						return;
+					}
+					if (name && password) {
+						argon2
+							.hash({ pass: password, salt: "SIMS_NaCl" })
+							.then((res) => {
+								$.post(
+									"/login_get",
+									{ name: name, password: res.hashHex, code: code },
+									function (data) {
+										if (data.success) {
+											/*处理返回的data,如果成功找到就返回成功并重定向,重定向不一定需要后端才可以,前端的window.location.href更简洁一点,注意即使
+						用了重定向后端也要写一个关于此页面的接口,这是flask的规定,你可以看到我在app.py中写了一个叫@app.route('/new.html') def new_page():的接口就是为了程序重定向是能找到位置*/
+											alert("登录成功,欢迎您!");
+											window.location.href = "/new.html";
+										} else {
+											alert(data.info);
+										}
+									}
+								);
+							})
+							.catch((err) => {
+								console.log(err);
+								alert(err);
+							});
+					}
+				});
+			});
+
+			function changeCaptcha() {
+				// 向后端请求新的验证码图像
+				fetch("/change_captcha")
+					.then((response) => response.json())
+					.then((data) => {
+						const randomParameter = Math.random(); //这一块,旨在更新image的路径防止浏览器缓存使得图片不更新,只要能让路径实时变化就行
+						document.querySelector("img").src = data.image_path;
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			}
+
+			function register() {
+				window.location.href = "/register.html";
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,154 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+html,
+body {
+	width: 100%;
+	height: 100%;
+}
+.main {
+	width: 100%;
+	height: 100%;
+	background: url("../static/wp3826809.webp") no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+.mainframe {
+	width: 700px;
+	height: 600px;
+	background: rgba(0, 0, 0, 0.8);
+	/*position:fixed;
+left:0;
+right:0;
+top:0;
+bottom: 0;
+margin: auto;*/
+	position: absolute;
+	margin: auto;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+
+	border-radius: 15px;
+	/*padding:50px 0;*/
+	box-sizing: border-box;
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
+	animation: ani 0.8s ease-in-out forwards;
+}
+
+@keyframes ani {
+	0% {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.loginword {
+	text-align: center;
+	font-size: 30px;
+	color: beige;
+}
+
+.mainframe > div {
+	width: 350px;
+	height: 50px;
+	margin: 40px auto;
+	color: azure;
+}
+.mainframe > div > span {
+	display: inline-block;
+	cursor: pointer;
+}
+.mainframe > div input {
+	width: 100%;
+	height: 100%;
+	background: transparent;
+	border: none;
+	border-bottom: solid white;
+	outline: none;
+	color: azure;
+}
+.mainframe #dd {
+	width: 200px;
+	height: 50px;
+	border-radius: 50px;
+	background-image: linear-gradient(to right, #bc79d4, #f171fa);
+	text-align: center;
+	box-sizing: border-box;
+	font-size: 20px;
+	cursor: pointer;
+	line-height: 50px;
+}
+.text {
+	position: absolute;
+	top: 50px;
+	left: 60px;
+	text-align: left;
+	font-size: 60px;
+	color: antiquewhite;
+}
+
+input[type="text"]::placeholder,
+input[type="password"]::placeholder {
+	transition: all 0.5s ease;
+}
+
+input[type="text"]:hover::placeholder,
+input[type="password"]:hover::placeholder {
+	transform: translateY(-15px);
+}
+
+input[type="text"]:focus::placeholder,
+input[type="password"]:focus::placeholder {
+	opacity: 1;
+}
+
+input[type="text"]:not(:focus):not(:hover)::placeholder,
+input[type="password"]:not(:focus):not(:hover)::placeholder {
+	transform: translateY(0);
+}
+#dd span {
+	transition: all 1s ease;
+}
+
+#dd::after {
+	content: "点击进入!";
+	font-size: small;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	filter: blur(10px);
+	transition: all 1s ease;
+}
+#dd:hover::after {
+	top: 300px;
+	opacity: 1;
+	filter: blur(0);
+}
+#dd span:hover {
+	transform: translateY(-20px);
+}
+#dd span:not(:hover):not(:focus) {
+	transform: translateY(0);
+}
+#dd2 {
+	width: 200px;
+	height: 50px;
+	border-radius: 50px;
+	background-image: linear-gradient(to right, #bc79d4, #f171fa);
+	text-align: center;
+	box-sizing: border-box;
+	font-size: 20px;
+	cursor: pointer;
+	line-height: 50px;
+}

@@ -1,0 +1,207 @@
+/*这是new.html的样式表*/
+/*全局滚动条设置*/
+::-webkit-scrollbar {
+    width: 4px; /* 纵向滚动条*/
+    height: 4px; /* 横向滚动条 */
+    background-color: #fff;
+}
+
+/*定义滚动条轨道 内阴影*/
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+    background-color: #ccc;
+}
+
+/*定义滑块 内阴影*/
+::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+}
+
+/*顶部栏目的样式*/
+.top_area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 12%;
+    background-color: lightblue;
+    border-radius: 15px;
+}
+
+.system_info {
+    /*系统信息，在top_area内*/
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 70%;
+    height: 100%;
+}
+
+.custom_info {
+    /*用户信息，在top_area内*/
+    position: absolute;
+    left: 80%;
+    top: 0;
+    width: 20%;
+    height: 100%;
+}
+
+.head_image {
+    /*头像样式*/
+    position: absolute;
+    top: 20%;
+    border-radius: 50%;
+    height: 60%;
+    transition: all 0.6s;
+}
+
+
+.say_hello {
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    margin-left: 10px;
+    color: black;
+
+}
+
+/*左侧栏目的样式*/
+.left_area {
+    position: absolute;
+    left: 0;
+    top: 12%;
+    width: 17%;
+    height: 88%;
+    bottom: 5px;
+    -webkit-box-shadow: 0 1px 8px rgba(0, 21, 41, .08);
+    box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+}
+
+.left_menu {
+    margin: 5% 10%;
+    height: 95%;
+    border-radius: 10px;
+    overflow-y: scroll;
+    -webkit-box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+    box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+}
+
+
+
+.left_menu_item {
+    width: 100%;
+    height: 10%;
+    border: none;
+    outline:none;
+    border-radius: 10px;
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    transition: all 0.6s;
+    margin-top: 5px;
+}
+
+.left_menu_item strong{
+    margin:0 auto;
+}
+.left_menu_item:hover{
+    background-color: #c9e0e9;
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.6);
+    cursor: pointer;
+}
+
+/*主栏目的样式*/
+.main_area {
+    position: absolute;
+    left: 27%;
+    top: 12%;
+    width: 90%;
+    height: 88%;
+    bottom: 5px;
+    overflow-y: scroll;
+}
+
+.material-symbols-outlined{
+    position:absolute;
+    margin-left: 23px;
+    margin-top: 25px;
+}
+
+.custom-rounded{
+    border-radius: 10px;
+}
+.rounded-table {
+    border-collapse: separate; /* 这个属性是关键，它允许我们为表格的边框和单元格应用圆角 */
+    border-spacing: 0;
+    border-radius: 0.8rem; /* 这个值等同于 Bootstrap 中的 .rounded-3 类 */
+  }
+  .rounded-table thead th:first-child {
+    border-top-left-radius: 0.75rem; /* 应用圆角到左上角的表头单元格 */
+  }
+  .rounded-table thead th:last-child {
+    border-top-right-radius: 0.75rem; /* 应用圆角到右上角的表头单元格 */
+  }
+  .rounded-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 0.75rem; /* 应用圆角到左下角的单元格 */
+  }
+  .rounded-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 0.75rem; /* 应用圆角到右下角的单元格 */
+  }
+
+  .search{
+    width:300px;
+    position: absolute;
+    margin-left:420px;
+    margin-top: -630px;
+    border-radius: 10px;
+    outline: none;
+    border: 1.5px solid black;
+  }
+  .material-symbols-outlined{
+    position: absolute;
+    margin-left: -65px;
+    margin-top: -1px;
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+  }
+  .button{
+    position: absolute;
+    width: 100px;
+    margin-left:730px;
+    margin-top: -630px;
+    border-radius: 10px;
+    border: 2px solid black;
+    display: flex;
+    justify-content: center;
+  }
+
+  .button:hover{
+    cursor: pointer;
+    background-color: black;
+    color:white;
+    border-color: #fff;
+  }
+
+
+
+  .btn{
+    margin-left: 20px;
+  }
+
+.table{
+    animation: ani 0.7s ease-in-out forwards;
+}
+
+@keyframes ani{
+  0%{
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100%{
+    opacity: 1;
+  }
+}
+

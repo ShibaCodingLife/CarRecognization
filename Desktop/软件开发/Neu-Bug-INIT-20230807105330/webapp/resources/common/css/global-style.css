@@ -1,0 +1,398 @@
+/*
+ *平台全局的样式表
+ *由于使用smart admin 模版，因此重新定义的全局CSS会相对较少
+ */
+
+/*自定颜色的模版自定义样式-开始*/
+.nav-tabs > li.active > a {
+    -webkit-box-shadow: 0 -2px 0 #ff7800;
+    -moz-box-shadow: 0 -2px 0 #ff7800;
+    box-shadow: 0 -2px 0 #ff7800;
+    border-top-width: 0 !important;
+    margin-top: 1px !important;
+    font-weight: 700;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #ff7800;
+    border-color: #ef7800
+}
+
+.btn-primary.active, .btn-primary:active, .btn-primary:focus, .btn-primary:hover, .open > .dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: #739e73;
+    border-color: #659265;
+}
+
+.btn-primary.active, .btn-primary:active, .open > .dropdown-toggle.btn-primary {
+    background-image: none
+}
+
+.btn-primary.disabled, .btn-primary.disabled.active, .btn-primary.disabled:active, .btn-primary.disabled:focus, .btn-primary.disabled:hover, .btn-primary[disabled], .btn-primary[disabled].active, .btn-primary[disabled]:active, .btn-primary[disabled]:focus, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary, fieldset[disabled] .btn-primary.active, fieldset[disabled] .btn-primary:active, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary:hover {
+    background-color: #ffcc66;
+    border-color: #efcc66
+}
+
+.btn-primary .badge {
+    color: #ff7800;
+    background-color: #fff
+}
+
+
+.label-primary {
+    background-color: #ff7800;
+    color:#fff;
+    letter-spacing: 1px;
+}
+
+a {
+    color: #333;
+    text-decoration: none
+}
+a:focus, a:hover {
+    color: #ff7800;
+    text-decoration: none
+}
+a:focus {
+    outline: thin dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px
+}
+
+/*搜索框*/
+input[type=text]:focus + .input-group-addon {
+    border-color: #ef7800;
+    background-color: #ff7800;
+}
+input[type=text]:focus {
+    border-color: #ef7800;
+    background-color: #fff;
+    color: #333;
+}
+
+/*分页样式*/
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    z-index: 2;
+    color: #fff;
+    background-color: #ff7800;
+    border-color: #ef7800;
+    cursor: pointer;
+}
+.pagination > li > a:focus, .pagination > li > a:hover, .pagination > li > span:focus, .pagination > li > span:hover {
+    color: #ff7800;
+    background-color: #fefefe;
+    border-color: #eee;
+}
+.pagination > li > a, .pagination > li > a, .pagination > li > span, .pagination > li > span {
+    color: #ef7800;
+    background-color: #eee;
+    border-color: #ddd;
+}
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    background-color: #fafafa;
+    color: #444;
+}
+/*widget新样式*/
+.bd-jarviswidget-color-primary > header {
+    background: #FF7800;
+    color: #FFF;
+}
+
+/*进度条样式调整*/
+.progress {
+    margin-bottom: 0px;
+}
+.progress .progress-bar {
+    line-height: 16px;
+}
+/*头像样式*/
+img.online {
+    border-left-color: #ff7800 !important;
+}
+/*自定颜色的模版自定义样式-结束*/
+
+ 
+body {
+    /**留出页头的高度**/
+	/**padding-top:52px;**/
+    font-family: "微软雅黑","Microsoft YaHei";
+    font-size: 14px;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-family: "微软雅黑","Microsoft YaHei";
+}
+.sys-news:hover {
+	text-decoration:none;
+}
+.font-size-12 {
+    font-size:12px;
+}
+.font-size-14 {
+    font-size:14px;
+}
+.font-size-15 {
+    font-size:15px;
+}
+.font-size-16 {
+    font-size:16px;
+}
+.font-size-18 {
+    font-size:18px;
+}
+.font-size-20 {
+	font-size:20px;
+}
+
+.nav-width {
+	width:100px;
+}
+
+.margin-left-2{
+    margin-left: 2px;
+}
+.margin-left-5{
+    margin-left: 5px;
+}
+.margin-left-10{
+    margin-left: 10px;
+}
+.margin-left-20{
+    margin-left: 20px;
+}
+
+.margin-right-2{
+    margin-right: 2px;
+}
+.margin-right-5{
+     margin-right: 5px;
+ }
+.margin-right-10{
+    margin-right: 10px;
+}
+.margin-right-20{
+    margin-right: 20px;
+}
+
+.margin-top-2{
+    margin-top: 2px;
+}
+.margin-top-5{
+    margin-top: 5px;
+}
+.margin-top-10{
+    margin-top: 10px;
+}
+.margin-top-20{
+    margin-top: 20px;
+}
+.margin-top-30{
+    margin-top: 30px;
+}
+
+.margin-bottom-2{
+    margin-bottom: 2px;
+}
+.margin-bottom-5{
+    margin-bottom: 5px;
+}
+.margin-bottom-10{
+    margin-bottom: 10px;
+}
+.margin-bottom-20{
+    margin-bottom: 20px;
+}
+.margin-bottom-30{
+    margin-bottom: 30px;
+}
+
+/*强调的文字颜色*/
+.stress-color{
+    color: #ff7800;
+}
+/*白色*/
+.white{
+    color: #fff;
+}
+/*手型可操作图标*/
+.cursor-hand{
+    cursor: pointer;
+}
+
+/*选定区域下部显示下影线*/
+.section-bottom-border{
+    border-bottom: 1px solid #eee;
+}
+
+/*资源图片及hover效果*/
+.div-hover-img img {
+    position: relative;
+    box-shadow: 0 0 4px #ddd;
+    opacity: 0.6;
+    filter: alpha(opacity=60);
+}
+.div-hover-img:hover img {
+    opacity: 1;
+    filter: alpha(opacity=100);
+    box-shadow: 0 0 10px #aaa;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+/*重写bd-row，出现左右滚动条的问题*/
+.bd-row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.bd-bottom-border{
+    border-bottom: 1px dashed #f1f1f1;
+}
+
+/*资源显示边框*/
+.contlay .pt {
+    text-align:center;
+    padding-top:30px;
+}
+.contlay .panel:hover {
+    background-color:#eee;
+}
+.contlay .panel a {
+    color:#333;
+}
+.contlay .panel a:hover {
+    text-decoration:none;
+}
+
+/*赞的样式*/
+.bd-up-support{
+     color: #CCCCCC;
+    position: relative
+ }
+.bd-up-support:hover{
+    color: #ff7800;
+    font-size: 110%;
+    cursor: pointer;
+}
+.bd-up-support .bd-up-support-numdo{
+    display: none;
+    position:absolute;
+    top:1px;
+    right:-20px;
+    font-size: 14px;
+    font-weight: 700
+}
+/*用户头像，小*/
+.online{
+    width: 50px;
+    height: 50px;
+}
+.bd-avatar-img-small{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%
+}
+.bd-avatar-img-middle{
+     width: 100px;
+     height: 100px;
+     border-radius: 50%
+ }
+.bd-avatar-img-large{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%
+}
+.bd-avatar-list{
+    padding-bottom:10px;
+    border-bottom: 1px dashed #ccc
+}
+
+/*页头头像下拉框-样式*/
+.dropdown-menu li a.headPersonXL {
+	padding-top:5px;
+	padding-bottom:5px;
+	letter-spacing:1px;
+}
+
+/*男女生不同的颜色*/
+.bd-male-color{
+    color: #0066cc;
+}
+.bd-female-color{
+    color: #ff33ff;
+}
+
+/*项目资源标签样式*/
+.project-img-label-list{
+    position: absolute;
+    top: 6px;
+    right: 19px;
+    z-index: 2;
+}
+.project-img-label{
+    position: absolute;
+    top: 5px;
+    right: 18px;
+    z-index: 2;
+}
+
+/**通知标签样式**/
+.headPhoto b.badge {
+	position: absolute;
+	top: 0px;
+	right: -2px;
+	cursor: pointer;
+	background: #006fa6;
+	display: inline-block;
+	font-size: 10px;
+	box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1), inset 0 -1px 0 rgba(0, 0, 0, .07);
+	color: #fff;
+	font-weight: 700;
+	border-radius: 50%;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	padding: 2px 4px 3px;
+	text-align: center;
+	line-height: normal;
+}
+/* Margin bottom by footer height */
+body {
+	margin-bottom: 68px;
+}
+
+/* 页面尾部固定在页面底部 */
+.mooc-footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 68px;
+	padding-bottom:20px;
+	padding-top:22px;
+	background: #000;
+	color:#ccc;
+	clear:both;
+}
+
+/* 提示信息样式 开始 -------- */
+.tip-success-info {
+	margin-top: 6px;
+	padding: 0 1px;
+	font-style: normal;
+	font-size: 13px;
+	line-height: 15px;
+	color: green;
+}
+
+.tip-error-info {
+	margin-top: 6px;
+	padding: 0 1px;
+	font-style: normal;
+	font-size: 13px;
+	line-height: 15px;
+	color: red;
+}
+/* 提示信息样式 结束 -------- */

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans       
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd       
+	http://www.springframework.org/schema/context       
+	http://www.springframework.org/schema/context/spring-context-3.2.xsd       
+	http://www.springframework.org/schema/mvc       
+	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd   
+	http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd 
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射 -->
+	<mvc:annotation-driven />
+
+	<!-- 启动包扫描功能，以便注册带有@Controller、@Service、@repository、@Component等注解的类成为spring的bean -->
+	<!-- 扫描时优先扫描DAO,然后Service，然后再扫描Controller -->
+	<context:component-scan base-package="com.neusoft.neumooc.dao" />
+	<context:component-scan base-package="com.neusoft.neumooc.service" />
+	<context:component-scan base-package="com.neusoft.neumooc.controller" />
+	<context:component-scan base-package="com.neusoft.core.common" />
+	<context:component-scan base-package="com.neusoft.core.util" />
+	<!-- <context:component-scan base-package="com.baidu.ueditor.upload" /> -->
+	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 请求映射 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+	<!-- 对模型视图名称的解析，在WEB-INF/page目录下找对应的jsp文件 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/WEB-INF/page/" p:suffix=".jsp" />
+
+	<!--放过/resources下的静态文件,放置js\css\图片等 -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/upload/**" location="/upload/" />
+
+	<!-- 配置上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<property name="maxUploadSize" value="1048576000"></property>
+		<property name="maxInMemorySize" value="40960"></property>
+	</bean>
+
+	<!-- JDBC Properties -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<value>classpath*:*.properties</value>
+		</property>
+	</bean>
+
+	<!-- 数据源属性 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<property name="maxActive" value="${jdbc.maxActive}" />
+		<property name="maxIdle" value="${jdbc.maxIdle}" />
+		<property name="minIdle" value="${jdbc.minIdle}" />
+		<property name="removeAbandoned" value="${jdbc.removeAbandoned}" />
+		<property name="removeAbandonedTimeout" value="${jdbc.removeAbandonedTimeout}" />
+		<property name="maxWait" value="${jdbc.maxWait}" />
+		<property name="testOnBorrow" value="${jdbc.testOnBorrow}" />
+		<property name="validationQuery" value="${jdbc.validationQuery}" />
+		<property name="testWhileIdle" value="${jdbc.testWhileIdle}" />
+		<property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}" />
+		<property name="numTestsPerEvictionRun" value="${jdbc.numTestsPerEvictionRun}" />
+	</bean>
+
+	<!-- DAO层所用 jdbcTemplate -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- DAO层所用 namedParameterJdbcTemplate -->
+	<bean id="namedParameterJdbcTemplate"
+		class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-arg ref="dataSource" />
+	</bean>
+	<!-- 配置sql模板 -->
+	<!--<bean id="sqlTemplate"
+		class="org.myframework.jdbc.sqltemplate.impl.VelocitySqlTemplate">
+		<property name="sqlConfig" ref="xmlSqlConfig" />
+	</bean>
+	<bean id="xmlSqlConfig" class="org.myframework.jdbc.sqlconfig.impl.XmlSqlConfig">
+		<property name="mapperDir" value="classpath:sql"></property>
+	</bean>
+	-->
+
+	<!-- 定义事物管理器对应的数据源 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	<!-- 启动事物 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- 总错误处理 -->
+	<bean id="exceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="defaultErrorView" value="/common/500" />
+		<property name="exceptionMappings">
+			<props>
+				<prop key="DAOException">/common/500</prop>
+				<prop key="ServiceException">/common/500</prop>
+			</props>
+		</property>
+		<property name="warnLogCategory">
+			<value>org.springframework.web.servlet.handler.SimpleMappingExceptionResolver
+			</value>
+		</property>
+	</bean>
+
+	<!-- 开启基于@AspectJ切面的注解处理器 -->
+	<aop:aspectj-autoproxy />
+
+	<!-- 图片验证码 -->
+	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+		<property name="config">
+			<bean class="com.google.code.kaptcha.util.Config">
+				<constructor-arg>
+					<props>
+						<prop key="kaptcha.border">no</prop>
+						<prop key="kaptcha.border.color">105,179,90</prop>
+						<prop key="kaptcha.textproducer.font.color">red</prop>
+						<prop key="kaptcha.image.width">250</prop>
+						<prop key="kaptcha.textproducer.font.size">90</prop>
+						<prop key="kaptcha.image.height">90</prop>
+						<prop key="kaptcha.session.key">code</prop>
+						<prop key="kaptcha.textproducer.char.length">4</prop>
+						<prop key="kaptcha.textproducer.font.names">宋体,楷体,微软雅黑</prop>
+					</props>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+</beans> 
